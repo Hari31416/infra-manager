@@ -111,7 +111,7 @@ function App() {
           {services.length === 0 && !loading && (
             <div className="col-span-full py-24 text-center border-2 border-dashed rounded-3xl bg-muted/20">
               <Server className="h-12 w-12 text-muted-foreground mx-auto mb-4 opacity-20" />
-              <p className="text-muted-foreground font-medium">No services found. Ensure your docker-compose is running.</p>
+              <p className="text-muted-foreground font-medium">No services found. Ensure your docker compose is running.</p>
             </div>
           )}
         </div>

@@ -34,7 +34,7 @@ Infra Manager provides a unified "Command Center" for shared infrastructure serv
 
 The project consists of three main components:
 
-1.  **Shared Infrastructure**: Defined in `docker-compose.yml`, managing Postgres, Redis, MinIO, Qdrant, and MongoDB containers.
+1.  **Shared Infrastructure**: Defined in `docker-compose.yml`, managing Postgres, Redis, MinIO, Qdrant, and MongoDB containers. Using `docker compose` for orchestration.
 2.  **Backend (FastAPI)**: A Python service that interacts with the Docker SDK to fetch container statuses and queries individual services for metrics.
 3.  **Frontend (React + Vite)**: A modern, responsive dashboard built with Shadcn UI and Lucide icons.
 
@@ -62,7 +62,7 @@ graph TD
 
 ### Prerequisites
 
-- [Docker](https://www.docker.com/) and [Docker Compose](https://docs.docker.com/compose/)
+- [Docker](https://www.docker.com/) and [Docker Compose V2](https://docs.docker.com/compose/)
 - [uv](https://github.com/astral-sh/uv) (for Python package management)
 - [pnpm](https://pnpm.io/) (for frontend package management)
 

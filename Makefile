@@ -40,16 +40,16 @@ restart-extended: down-extended up-extended
 
 # Docker operations
 docker-up:
-	docker-compose up -d
+	docker compose up -d
 
 docker-up-extended:
-	docker-compose -f docker-compose-extended.yml up -d
+	docker compose -f docker-compose-extended.yml up -d
 
 docker-down:
-	docker-compose down
+	docker compose down
 
 docker-down-extended:
-	docker-compose -f docker-compose-extended.yml down
+	docker compose -f docker-compose-extended.yml down
 
 # Helper to tail logs
 tail-backend:
