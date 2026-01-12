@@ -417,6 +417,30 @@ export function ServiceCard({ service, detailedInfo, onDropPostgres, onDropMinio
         </div>
 
         <div className="mt-4 flex gap-2">
+          {service.name.includes("postgres") && (
+            <a
+              href="http://localhost:5050"
+              target="_blank"
+              rel="noreferrer"
+              className="w-full"
+            >
+              <Badge variant="outline" className="w-full flex justify-center py-1 cursor-pointer hover:bg-accent transition-colors">
+                <ExternalLink className="h-3 w-3 mr-2" />pgAdmin
+              </Badge>
+            </a>
+          )}
+          {service.name.includes("redis") && (
+            <a
+              href="http://localhost:5540"
+              target="_blank"
+              rel="noreferrer"
+              className="w-full"
+            >
+              <Badge variant="outline" className="w-full flex justify-center py-1 cursor-pointer hover:bg-accent transition-colors">
+                <ExternalLink className="h-3 w-3 mr-2" />RedisInsight
+              </Badge>
+            </a>
+          )}
           {service.name.includes("minio") && (
             <a
               href="http://localhost:9001"
@@ -425,7 +449,7 @@ export function ServiceCard({ service, detailedInfo, onDropPostgres, onDropMinio
               className="w-full"
             >
               <Badge variant="outline" className="w-full flex justify-center py-1 cursor-pointer hover:bg-accent transition-colors">
-                <ExternalLink className="h-3 w-3 mr-2" /> Console
+                <ExternalLink className="h-3 w-3 mr-2" />Console
               </Badge>
             </a>
           )}
@@ -437,7 +461,19 @@ export function ServiceCard({ service, detailedInfo, onDropPostgres, onDropMinio
               className="w-full"
             >
               <Badge variant="outline" className="w-full flex justify-center py-1 cursor-pointer hover:bg-accent transition-colors">
-                <ExternalLink className="h-3 w-3 mr-2" /> Dashboard
+                <ExternalLink className="h-3 w-3 mr-2" />Dashboard
+              </Badge>
+            </a>
+          )}
+          {service.name.includes("mongodb") && (
+            <a
+              href="http://localhost:8081"
+              target="_blank"
+              rel="noreferrer"
+              className="w-full"
+            >
+              <Badge variant="outline" className="w-full flex justify-center py-1 cursor-pointer hover:bg-accent transition-colors">
+                <ExternalLink className="h-3 w-3 mr-2" />Mongo Express
               </Badge>
             </a>
           )}

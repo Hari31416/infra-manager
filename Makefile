@@ -1,4 +1,4 @@
-.PHONY: up down restart build logs-backend logs-frontend docker-up docker-down kill start-apps
+.PHONY: up up-extended down down-extended restart restart-extended build logs-backend logs-frontend docker-up docker-up-extended docker-down docker-down-extended kill start-apps
 
 # Start all services (Docker + Apps)
 up: docker-up start-apps
@@ -17,8 +17,12 @@ start-apps:
 	@echo "Backend: http://localhost:8000 (logs: logs/backend.log)"
 	@echo "Frontend: http://localhost:5173 (logs: logs/frontend.log)"
 
+# Start all services with extended infra (Admin Tools included)
+up-extended: docker-up-extended start-apps
+
 # Stop everything
 down: docker-down kill
+down-extended: docker-down-extended kill
 
 # Alias for down
 stop: down
@@ -32,13 +36,20 @@ kill:
 
 # Restart all services
 restart: down up
+restart-extended: down-extended up-extended
 
 # Docker operations
 docker-up:
 	docker-compose up -d
 
+docker-up-extended:
+	docker-compose -f docker-compose-extended.yml up -d
+
 docker-down:
 	docker-compose down
+
+docker-down-extended:
+	docker-compose -f docker-compose-extended.yml down
 
 # Helper to tail logs
 tail-backend:

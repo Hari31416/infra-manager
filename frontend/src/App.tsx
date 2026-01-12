@@ -81,6 +81,14 @@ function App() {
       </header>
 
       <main className="container mx-auto py-8 px-4">
+        {/* Extended Infra Hint */}
+        <div className="mb-8 p-3 bg-blue-500/5 border border-blue-500/10 rounded-xl flex items-center gap-3 text-[11px] text-muted-foreground">
+          <Server className="h-3.5 w-3.5 text-blue-500 opacity-70" />
+          <span>
+            <strong className="text-blue-600 dark:text-blue-400">Admin Tip:</strong> Use <code className="bg-blue-500/10 px-1.5 py-0.5 rounded font-bold text-blue-700 dark:text-blue-300">make up-extended</code> to launch with pgAdmin, RedisInsight, and Mongo Express enabled.
+          </span>
+        </div>
+
         {error && (
           <div className="p-4 mb-8 border border-destructive/50 bg-destructive/10 text-destructive rounded-lg flex items-center gap-3">
             <Activity className="h-5 w-5" />

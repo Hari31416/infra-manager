@@ -11,21 +11,24 @@ Infra Manager provides a unified "Command Center" for shared infrastructure serv
 - **Centralized Dashboard**: A premium React interface for real-time monitoring.
 - **Service Monitoring**: Displays health and status of Docker containers using the Docker API.
 - **Detailed Insights**: View live metrics like Redis keys, Postgres databases/tables, MinIO buckets, Qdrant collections, and MongoDB databases/collections.
+- **Unified Admin Access**: One-click access to admin consoles (pgAdmin, RedisInsight, Mongo Express, MinIO Console, Qdrant Dashboard) directly from each service card.
 - **Connection Info**: Quick-copy connection strings for each service.
-- **Quick Access**: Direct links to service consoles (e.g., MinIO Console, Qdrant Dashboard).
 - **Resource Efficient**: Consolidates multiple service instances into a single shared stack.
 
 ## Service Ports
 
-| Service   | Host      | Port(s)      | Purpose           |
-|-----------|-----------|--------------|-------------------|
-| Postgres  | localhost | 54321        | SQL Database      |
-| Redis     | localhost | 63791        | Cache/Store       |
-| MinIO     | localhost | 9000, 9001   | Object Storage    |
-| Qdrant    | localhost | 6333, 6334   | Vector Database   |
-| MongoDB   | localhost | 27018        | Document Database |
-| Backend   | localhost | 8000         | API Server        |
-| Frontend  | localhost | 5173         | Dashboard UI      |
+| Service        | Host      | Port(s)      | Purpose              |
+|----------------|-----------|--------------|----------------------|
+| Postgres       | localhost | 54321        | SQL Database         |
+| Redis          | localhost | 63791        | Cache/Store          |
+| MinIO          | localhost | 9000, 9001   | Object Storage       |
+| Qdrant         | localhost | 6333, 6334   | Vector Database      |
+| MongoDB        | localhost | 27018        | Document Database    |
+| Backend        | localhost | 8000         | API Server           |
+| Frontend       | localhost | 5173         | Dashboard UI         |
+| **pgAdmin**    | localhost | 5050         | PostgreSQL Admin UI  |
+| **RedisInsight** | localhost | 5540       | Redis Admin UI       |
+| **Mongo Express** | localhost | 8081      | MongoDB Admin UI     |
 
 ## Architecture
 
