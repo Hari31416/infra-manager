@@ -24,7 +24,7 @@ Infra Manager provides a unified "Command Center" for shared infrastructure serv
 | MinIO          | localhost | 9000, 9001   | Object Storage       |
 | Qdrant         | localhost | 6333, 6334   | Vector Database      |
 | MongoDB        | localhost | 27018        | Document Database    |
-| Backend        | localhost | 8000         | API Server           |
+| Backend        | localhost | 8888         | API Server           |
 | Frontend       | localhost | 5173         | Dashboard UI         |
 | **pgAdmin**    | localhost | 5050         | PostgreSQL Admin UI  |
 | **RedisInsight** | localhost | 5540       | Redis Admin UI       |

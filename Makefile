@@ -10,11 +10,11 @@ start: up
 start-apps:
 	@mkdir -p logs
 	@echo "Starting backend in background..."
-	@cd backend && nohup uv run uvicorn main:app --host 0.0.0.0 --port 8000 --reload > ../logs/backend.log 2>&1 &
+	@cd backend && nohup uv run uvicorn main:app --host 0.0.0.0 --port 8888 --reload > ../logs/backend.log 2>&1 &
 	@echo "Starting frontend in background..."
 	@cd frontend && nohup pnpm run dev > ../logs/frontend.log 2>&1 &
 	@echo "All apps started."
-	@echo "Backend: http://localhost:8000 (logs: logs/backend.log)"
+	@echo "Backend: http://localhost:8888 (logs: logs/backend.log)"
 	@echo "Frontend: http://localhost:5173 (logs: logs/frontend.log)"
 
 # Start all services with extended infra (Admin Tools included)
@@ -60,7 +60,7 @@ tail-frontend:
 
 # Legacy/Alternative foreground log commands
 logs-backend:
-	cd backend && uv run uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+	cd backend && uv run uvicorn main:app --host 0.0.0.0 --port 8888 --reload
 
 logs-frontend:
 	cd frontend && pnpm run dev
