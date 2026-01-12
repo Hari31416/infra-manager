@@ -8,24 +8,28 @@ services:
       POSTGRES_PASSWORD: password
       POSTGRES_DB: main_db
     ports:
-      - "5432:5432"
+      - "54321:5432"
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready -U admin -d main_db" ]
       interval: 10s
       timeout: 5s
       retries: 5
+    volumes:
+      - ./volumes/postgres:/var/lib/postgresql/data
 
   redis:
     image: redis:7-alpine
     container_name: infra-redis
     restart: always
     ports:
-      - "6379:6379"
+      - "63791:6379"
     healthcheck:
       test: [ "CMD", "redis-cli", "ping" ]
       interval: 10s
       timeout: 5s
       retries: 5
+    volumes:
+      - ./volumes/redis:/data
 
   minio:
     image: minio/minio:latest
@@ -43,6 +47,8 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+    volumes:
+      - ./volumes/minio:/data
 
   qdrant:
     image: qdrant/qdrant
@@ -56,3 +62,22 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+    volumes:
+      - ./volumes/qdrant:/qdrant/storage
+
+  mongodb:
+    image: mongo:latest
+    container_name: infra-mongodb
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: password
+    ports:
+      - "27018:27017"
+    healthcheck:
+      test: [ "CMD", "mongosh", "--eval", "db.adminCommand('ping')" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - ./volumes/mongodb:/data/db

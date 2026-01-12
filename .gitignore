@@ -33,6 +33,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
-
+# Infrastructure data
+volumes/
 
 .DS_Store

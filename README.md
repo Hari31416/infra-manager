@@ -4,21 +4,34 @@ A centralized infrastructure management and monitoring dashboard.
 
 ## Overview
 
-Infra Manager provides a unified "Command Center" for shared infrastructure services (Postgres, Redis, MinIO, Qdrant). It solves the problem of redundant service instances across multiple applications, simplifying port management and reducing system resource consumption.
+Infra Manager provides a unified "Command Center" for shared infrastructure services (Postgres, Redis, MinIO, Qdrant, MongoDB). It solves the problem of redundant service instances across multiple applications, simplifying port management and reducing system resource consumption.
 
 ### Key Features
 
 - **Centralized Dashboard**: A premium React interface for real-time monitoring.
 - **Service Monitoring**: Displays health and status of Docker containers using the Docker API.
-- **Detailed Insights**: View live metrics like Redis keys, Postgres connections, and MinIO buckets.
+- **Detailed Insights**: View live metrics like Redis keys, Postgres databases/tables, MinIO buckets, Qdrant collections, and MongoDB databases/collections.
+- **Connection Info**: Quick-copy connection strings for each service.
 - **Quick Access**: Direct links to service consoles (e.g., MinIO Console, Qdrant Dashboard).
 - **Resource Efficient**: Consolidates multiple service instances into a single shared stack.
+
+## Service Ports
+
+| Service   | Host      | Port(s)      | Purpose           |
+|-----------|-----------|--------------|-------------------|
+| Postgres  | localhost | 54321        | SQL Database      |
+| Redis     | localhost | 63791        | Cache/Store       |
+| MinIO     | localhost | 9000, 9001   | Object Storage    |
+| Qdrant    | localhost | 6333, 6334   | Vector Database   |
+| MongoDB   | localhost | 27018        | Document Database |
+| Backend   | localhost | 8000         | API Server        |
+| Frontend  | localhost | 5173         | Dashboard UI      |
 
 ## Architecture
 
 The project consists of three main components:
 
-1.  **Shared Infrastructure**: Defined in `docker-compose.yml`, managing Postgres, Redis, MinIO, and Qdrant containers.
+1.  **Shared Infrastructure**: Defined in `docker-compose.yml`, managing Postgres, Redis, MinIO, Qdrant, and MongoDB containers.
 2.  **Backend (FastAPI)**: A Python service that interacts with the Docker SDK to fetch container statuses and queries individual services for metrics.
 3.  **Frontend (React + Vite)**: A modern, responsive dashboard built with Shadcn UI and Lucide icons.
 
@@ -31,12 +44,14 @@ graph TD
     Backend --> Redis[Redis Metrics]
     Backend --> MinIO[MinIO Metrics]
     Backend --> Qdrant[Qdrant Metrics]
+    Backend --> MongoDB[MongoDB Metrics]
     
     subgraph "Infrastructure Stack"
         Postgres
         Redis
         MinIO
         Qdrant
+        MongoDB
     end
 ```
 
