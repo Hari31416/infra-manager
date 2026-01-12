@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 
+const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:8000";
+
 export interface Service {
   id: string;
   name: string;
@@ -84,7 +86,7 @@ export function useServices() {
 
   const fetchHealth = async () => {
     try {
-      const res = await fetch("http://localhost:8000/services");
+      const res = await fetch(`${API_BASE}/services`);
       if (!res.ok) throw new Error("Failed to fetch health status");
       const data = await res.json();
       setServices(data);
@@ -97,11 +99,11 @@ export function useServices() {
     setLoading(true);
     try {
       const [redisRes, postgresRes, minioRes, qdrantRes, mongodbRes] = await Promise.all([
-        fetch("http://localhost:8000/services/redis"),
-        fetch("http://localhost:8000/services/postgres"),
-        fetch("http://localhost:8000/services/minio"),
-        fetch("http://localhost:8000/services/qdrant"),
-        fetch("http://localhost:8000/services/mongodb")
+        fetch(`${API_BASE}/services/redis`),
+        fetch(`${API_BASE}/services/postgres`),
+        fetch(`${API_BASE}/services/minio`),
+        fetch(`${API_BASE}/services/qdrant`),
+        fetch(`${API_BASE}/services/mongodb`)
       ]);
 
       const redisData = await redisRes.json();
@@ -120,6 +122,48 @@ export function useServices() {
       setError(err instanceof Error ? err.message : "An error occurred fetching details");
     } finally {
       setLoading(false);
+    }
+  };
+
+  const dropPostgresDatabase = async (dbName: string) => {
+    try {
+      const res = await fetch(`${API_BASE}/services/postgres/databases/${dbName}`, {
+        method: "DELETE",
+      });
+      if (!res.ok) throw new Error("Failed to drop database");
+      await fetchDetails();
+      return await res.json();
+    } catch (err) {
+      console.error("Error dropping PostgreSQL database:", err);
+      throw err;
+    }
+  };
+
+  const dropMinioBucket = async (bucketName: string) => {
+    try {
+      const res = await fetch(`${API_BASE}/services/minio/buckets/${bucketName}`, {
+        method: "DELETE",
+      });
+      if (!res.ok) throw new Error("Failed to drop bucket");
+      await fetchDetails();
+      return await res.json();
+    } catch (err) {
+      console.error("Error dropping MinIO bucket:", err);
+      throw err;
+    }
+  };
+
+  const dropMongoDatabase = async (dbName: string) => {
+    try {
+      const res = await fetch(`${API_BASE}/services/mongodb/databases/${dbName}`, {
+        method: "DELETE",
+      });
+      if (!res.ok) throw new Error("Failed to drop database");
+      await fetchDetails();
+      return await res.json();
+    } catch (err) {
+      console.error("Error dropping MongoDB database:", err);
+      throw err;
     }
   };
 
@@ -145,6 +189,9 @@ export function useServices() {
     mongodbInfo,
     loading,
     error,
+    dropPostgresDatabase,
+    dropMinioBucket,
+    dropMongoDatabase,
     refetch: () => { fetchHealth(); fetchDetails(); }
   };
 }

@@ -108,18 +108,32 @@ pnpm dev
 ```text
 .
 ├── backend/                # FastAPI application
-│   ├── main.py            # API implementation and Docker integration
+│   ├── routers/           # API routes (health, services)
+│   ├── services/          # Business logic for each service
+│   ├── config.py          # Centralized configuration
+│   ├── main.py            # App initialization
 │   └── pyproject.toml     # Python dependencies (uv)
 ├── frontend/               # React application
 │   ├── src/
-│   │   ├── components/    # UI components (Shadcn UI)
-│   │   ├── hooks/         # Custom React hooks (useServices)
+│   │   ├── components/    # UI components (ServiceCard, AlertDialog)
+│   │   ├── hooks/         # Custom hooks (useServices)
 │   │   └── App.tsx        # Main dashboard layout
 │   └── pnpm-lock.yaml     # Frontend dependencies
 ├── docker-compose.yml      # Infrastructure service definitions
 ├── Makefile                # Development shortcuts
 └── INFRA_MANAGER.md        # Original problem statement and vision
 ```
+
+## Destructive Operations
+
+The dashboard now includes the ability to drop databases and buckets for the following services:
+
+- **PostgreSQL**: Drop any non-system database.
+- **MinIO**: Drop any bucket (will automatically clear all objects first).
+- **MongoDB**: Drop any non-system database.
+
+> [!CAUTION]
+> These actions are permanent and cannot be undone. Always verify you are on the correct environment before performing a drop operation. System databases (e.g., `postgres`, `admin`, `config`) are protected and cannot be dropped through the interface.
 
 ## Development
 
