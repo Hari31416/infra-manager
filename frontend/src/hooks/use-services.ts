@@ -167,6 +167,20 @@ export function useServices() {
     }
   };
 
+  const createPostgresDatabase = async (dbName: string) => {
+    try {
+      const res = await fetch(`${API_BASE}/services/postgres/databases/${dbName}`, {
+        method: "POST",
+      });
+      if (!res.ok) throw new Error("Failed to create database");
+      await fetchDetails();
+      return await res.json();
+    } catch (err) {
+      console.error("Error creating PostgreSQL database:", err);
+      throw err;
+    }
+  };
+
   useEffect(() => {
     fetchHealth();
     fetchDetails();
@@ -189,6 +203,7 @@ export function useServices() {
     mongodbInfo,
     loading,
     error,
+    createPostgresDatabase,
     dropPostgresDatabase,
     dropMinioBucket,
     dropMongoDatabase,

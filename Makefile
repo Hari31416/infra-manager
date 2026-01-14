@@ -30,8 +30,8 @@ stop: down
 # Stop only the backend and frontend processes
 kill:
 	@echo "Stopping backend and frontend..."
-	-@pkill -f "uvicorn main:app" || true
-	-@pkill -f "vite" || true
+	-@pkill -f "[u]vicorn main:app" || true
+	-@pkill -f "[v]ite" || true
 	@echo "Processes stopped."
 
 # Restart all services

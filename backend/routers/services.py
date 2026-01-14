@@ -40,6 +40,12 @@ async def mongodb_info():
     return MongoDBService.get_info()
 
 
+@router.post("/postgres/databases/{db_name}")
+async def create_postgres_database(db_name: str):
+    """Create a new PostgreSQL database."""
+    return PostgresService.create_database(db_name)
+
+
 @router.delete("/postgres/databases/{db_name}")
 async def drop_postgres_database(db_name: str):
     """Drop a PostgreSQL database."""

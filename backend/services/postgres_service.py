@@ -111,6 +111,53 @@ class PostgresService:
             return {"status": "error", "message": str(e)}
 
     @staticmethod
+    def create_database(db_name: str) -> Dict[str, Any]:
+        """Create a new blank PostgreSQL database."""
+        try:
+            # Validate database name
+            if not db_name or not db_name.replace("_", "").replace("-", "").isalnum():
+                return {
+                    "status": "error",
+                    "message": "Invalid database name. Use only alphanumeric characters, hyphens, and underscores.",
+                }
+
+            # Connect to default database to create the new database
+            conn = psycopg2.connect(
+                host=POSTGRES_HOST,
+                port=POSTGRES_PORT,
+                user=POSTGRES_USER,
+                password=POSTGRES_PASSWORD,
+                dbname=POSTGRES_DEFAULT_DB,
+            )
+            conn.autocommit = True
+            cur = conn.cursor()
+
+            # Check if database already exists
+            cur.execute("SELECT 1 FROM pg_database WHERE datname = %s;", (db_name,))
+            if cur.fetchone():
+                cur.close()
+                conn.close()
+                return {
+                    "status": "error",
+                    "message": f"Database {db_name} already exists",
+                }
+
+            # Create the database
+            cur.execute(f'CREATE DATABASE "{db_name}";')
+
+            cur.close()
+            conn.close()
+
+            logger.info(f"Successfully created database: {db_name}")
+            return {
+                "status": "success",
+                "message": f"Database {db_name} created successfully",
+            }
+        except Exception as e:
+            logger.error(f"Error creating database {db_name}: {e}")
+            return {"status": "error", "message": str(e)}
+
+    @staticmethod
     def drop_database(db_name: str) -> Dict[str, Any]:
         """Drop a PostgreSQL database."""
         # Check if database is protected

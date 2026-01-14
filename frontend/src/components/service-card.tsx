@@ -12,21 +12,25 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { Input } from "@/components/ui/input";
 import type { Service, RedisInfo, PostgresInfo, MinioInfo, QdrantInfo, MongoDBInfo } from "@/hooks/use-services";
-import { Activity, CheckCircle2, AlertCircle, Database, HardDrive, Cpu, ExternalLink, ChevronDown, Copy, Check, Circle, Trash2, Loader2 } from "lucide-react";
+import { Activity, CheckCircle2, AlertCircle, Database, HardDrive, Cpu, ExternalLink, ChevronDown, Copy, Check, Circle, Trash2, Loader2, Plus } from "lucide-react";
 import { useState } from "react";
 
 interface ServiceCardProps {
   service: Service;
   detailedInfo?: RedisInfo | PostgresInfo | MinioInfo | QdrantInfo | MongoDBInfo | null;
+  onCreatePostgres?: (dbName: string) => Promise<any>;
   onDropPostgres?: (dbName: string) => Promise<any>;
   onDropMinio?: (bucketName: string) => Promise<any>;
   onDropMongo?: (dbName: string) => Promise<any>;
 }
 
-export function ServiceCard({ service, detailedInfo, onDropPostgres, onDropMinio, onDropMongo }: ServiceCardProps) {
+export function ServiceCard({ service, detailedInfo, onCreatePostgres, onDropPostgres, onDropMinio, onDropMongo }: ServiceCardProps) {
   const [copied, setCopied] = useState(false);
   const [isDeleting, setIsDeleting] = useState<string | null>(null);
+  const [isCreating, setIsCreating] = useState(false);
+  const [newDbName, setNewDbName] = useState("");
   const [expandedDbs, setExpandedDbs] = useState<Set<string>>(new Set());
   const isHealthy = service.health === "healthy";
   const isRunning = service.status === "running";
@@ -91,6 +95,19 @@ export function ServiceCard({ service, detailedInfo, onDropPostgres, onDropMinio
       console.error(`Failed to drop ${type}:`, err);
     } finally {
       setIsDeleting(null);
+    }
+  };
+
+  const handleCreate = async (createFn?: (n: string) => Promise<any>) => {
+    if (!createFn || !newDbName.trim()) return;
+    setIsCreating(true);
+    try {
+      await createFn(newDbName.trim());
+      setNewDbName("");
+    } catch (err) {
+      console.error("Failed to create database:", err);
+    } finally {
+      setIsCreating(false);
     }
   };
 
@@ -246,6 +263,25 @@ export function ServiceCard({ service, detailedInfo, onDropPostgres, onDropMinio
                           </Collapsible>
                         );
                       })}
+                      <div className="mt-3 pt-2 border-t flex gap-1">
+                        <Input
+                          type="text"
+                          placeholder="New database name"
+                          value={newDbName}
+                          onChange={(e) => setNewDbName(e.target.value)}
+                          onKeyPress={(e) => e.key === "Enter" && handleCreate(onCreatePostgres)}
+                          disabled={isCreating}
+                          className="h-7 text-xs"
+                        />
+                        <button
+                          onClick={() => handleCreate(onCreatePostgres)}
+                          disabled={isCreating || !newDbName.trim()}
+                          className="px-2 bg-accent/50 rounded hover:bg-green-500/20 hover:text-green-600 disabled:opacity-30 disabled:hover:bg-accent/50 disabled:hover:text-muted-foreground transition-colors"
+                          title="Create Database"
+                        >
+                          {isCreating ? <Loader2 className="h-3 w-3 animate-spin" /> : <Plus className="h-3 w-3" />}
+                        </button>
+                      </div>
                     </div>
                   </>
                 );

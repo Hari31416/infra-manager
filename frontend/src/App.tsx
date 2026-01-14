@@ -15,6 +15,7 @@ function App() {
     loading,
     error,
     refetch,
+    createPostgresDatabase,
     dropPostgresDatabase,
     dropMinioBucket,
     dropMongoDatabase
@@ -102,6 +103,7 @@ function App() {
               key={service.id}
               service={service}
               detailedInfo={getDetailedInfo(service.name)}
+              onCreatePostgres={createPostgresDatabase}
               onDropPostgres={dropPostgresDatabase}
               onDropMinio={dropMinioBucket}
               onDropMongo={dropMongoDatabase}
